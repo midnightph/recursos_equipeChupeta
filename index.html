@@ -13,10 +13,43 @@
                 <h1>Sistema de Reservar de Recurso</h1>
             </div>
             <div class="acoesNav">
-                <button class="botao" onclick="abrirLogin()">Emtrãom</button>
+                <button class="botao" onclick="abrirLogin()">Entrar</button>
                 <button class="botao botaoPrimario" onclick="rolarParaRapido()"></button>
             </div>
         </div>
     </header>
+    
+    <main class="container">
+        <section class="secaoHero">
+            <div class="cartaoHero">
+                <span class="selo">&#129513; Entidades: Usuário - Recurso - Reserva</span>
+                <h2>Reserve recursos de forma simples e rápida</h2>
+                <p class="textoMutado">Selecione o <strong>recurso</strong>, escolha <strong>data/horario</strong> e confirme. Depois, acompanhe suas <strong>reservas</strong> na aréa do usuário</p>
+                <form class="formRapido">
+                    <select>
+                        <options>- Selecione o Recurso -</options>
+                        <options>Laboratório 01</options>
+                        <options>Laboratório 02</options>
+                        <options>Projeto 4K</options>
+                        <options>Espaço de Reuniõens</options>
+                    </select>
+                    <input class="entrada" type="text" placeholder="Data">
+                    <input class="entrada" type="time" placeholder="Início">
+                    <input class="entrada" type="time" placeholder="Fim">
+                    <button class="botao botaoPrimario" type="submit">Reservar</button>
+                </form>
+            </div>
+            <div class="cartaoHero">
+                <h3>Status do Sistema</h3>
+                <p class="textoMutado">Ambiente <strong>DEMO</strong>. Integração real sera feita após a modelagem e a API.</p>
+                <ul class="textoMutado">
+                    <li>&#128272; Autenticação: planejada (Sprint 4-5)</li>
+                    <li>&#128450; Persistência: JSON, SQlite e MySQL</li>
+                    <li>&#128737; Perfis: Usuário e Administrador</li>
+                </ul>
+            </div>
+        </section>
+        <section class="gradeEntidades"></section>
+    </main>
 </body>
 </html>

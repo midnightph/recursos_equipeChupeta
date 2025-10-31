@@ -196,10 +196,26 @@ function haConflito({ recursoID,data,horaInicio,horaFim}) {
 }
 
 //OBJETIVO RENDERIZAR APARTIR DO BANCO AS INFO(localstorage)
-function renderItemReservaPersistida(r.recursosMap = null){
+function renderItemReservaPersistida(r,recursosMap = null){
   if(!listaReservas) return;
   const recursos = recursosMap || Object.fromEntries(repo.get(DB_KEYS.recurso).map(rr=>[rr.id,rr.nome]))
   const quando = `${r.data.split('-').reverse().join('/')}-${r.horaInicio}-${r.horaFim}`
+  const li = document.createElement('li')
+
+  const simbolo = r.status === 'aprovada'? '\u{2705}': r.status === 'cancelada'? '\u{274C}':'\u{23f3}'
+
+  li.innerHTML = `
+    <span><strong>${recursos[r.recursoId] || r.recurso}</strong> - ${quando}</span>
+    <span>${simbolo} ${r.status.charAt(0).toUpperCase() + r.status.slice(1)}</span>
+  `
+  if(r.status === 'cancelada') li.setAttribute('aria-disabled','true')
+
+  li.addEventListener('click',()=>{
+    if(r.statu==='cancelada') return
+    r.status='cancelada';
+    repo.updateById(DB_KEYS.reservas, r.id, ()=>r)
+    li.lastElementChild.textContent = ''
+  })
 }
 
 //? significa encadeamento opcional, isto é, faz as vezes do if

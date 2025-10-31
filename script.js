@@ -16,14 +16,14 @@ let __toastTimer = null;
 //__para indicar que é uma variável interna
 function mostrarToast(mensagem, tipo = 'ok') {
   // fallback se #toast não existir (ambiente antigo)
-  if (!$toast) { 
-    alert(mensagem); 
-    return; 
+  if (!$toast) {
+    alert(mensagem);
+    return;
   }
 
   $toast.classList.remove('warn', 'err', 'visivel');
   if (tipo === 'warn') $toast.classList.add('warn');
-  if (tipo === 'err')  $toast.classList.add('err');
+  if (tipo === 'err') $toast.classList.add('err');
   $toast.textContent = mensagem;
 
   // força reflow para reativar transição quando reaparecer
@@ -166,8 +166,8 @@ document.addEventListener('DOMContentLoaded', atualizarMenuAtivo);
    =========================================== */
 
 // Seletores das seções (se existirem no HTML atual)
-const formLogin     = document.getElementById('formLogin');
-const formPesquisa  = document.getElementById('formPesquisa');
+const formLogin = document.getElementById('formLogin');
+const formPesquisa = document.getElementById('formPesquisa');
 const formSolicitar = document.getElementById('formSolicitar');
 const listaReservas = document.getElementById('listaReservas');
 
@@ -179,14 +179,28 @@ REGRAS N0VAS DO SPRINT 3
 
 //ADICIONAR UMA HORA AO HORÁRIO QUE ESTA NO PADRÃO *HH:NN* PARA CARACTERIZAÇÃO DO FIM PADRÃO
 
-function adicionarumahora(hhmm){
-    const[h,m] = (hhmm || '00:00').split(':').map(Number);
-    const d = new Date();
-    d.setHours(h, m, 0, 0);
-    d.setMinutes(d.getMinutes()+60);
-    return d.toTimeString().slice(0,5);
+function adicionarumahora(hhmm) {
+  const [h, m] = (hhmm || '00:00').split(':').map(Number);
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  d.setMinutes(d.getMinutes() + 60);
+  return d.toTimeString().slice(0, 5);
 }
 
+//DETECÇÃO DE CONFLITO(RN2)
+//Não há conflito apenas quando um termina
+function haConflito({ recursoID,data,horaInicio,horaFim}) {
+  const existentes = repo.get(DB_KEYS.reservas)
+  .filter(r => r.recursoID === r.data === recursoID && r.data ===data && r.status !== 'Cancelada')
+  return existentes.some(r=>!(r.horaFim <=horaInicio || r.horaInicio>= horaFim))
+}
+
+//OBJETIVO RENDERIZAR APARTIR DO BANCO AS INFO(localstorage)
+function renderItemReservaPersistida(r.recursosMap = null){
+  if(!listaReservas) return;
+  const recursos = recursosMap || Object.fromEntries(repo.get(DB_KEYS.recurso).map(rr=>[rr.id,rr.nome]))
+  const quando = `${r.data.split('-').reverse().join('/')}-${r.horaInicio}-${r.horaFim}`
+}
 
 //? significa encadeamento opcional, isto é, faz as vezes do if
 formLogin?.addEventListener('submit', (e) => {

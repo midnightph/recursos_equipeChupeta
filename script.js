@@ -214,9 +214,12 @@ function renderItemReservaPersistida(r,recursosMap = null){
     if(r.statu==='cancelada') return
     r.status='cancelada';
     repo.updateById(DB_KEYS.reservas, r.id, ()=>r)
-    li.lastElementChild.textContent = ''
+    li.lastElementChild.textContent = 'Cancelada'
+
   })
 }
+
+listaReservas.appendChild(Li);
 
 //? significa encadeamento opcional, isto é, faz as vezes do if
 formLogin?.addEventListener('submit', (e) => {
@@ -254,6 +257,17 @@ formPesquisa?.addEventListener('submit', (e) => {
     return;
   }
 
+  //SPRINT 3 - INSERINDO CONFLITOS
+  const recursoID = Number(recurso);
+  const horaInicio = hora;
+  const horaFim = adicionarumahora(horaInicio);
+
+  //checar conflito na etapa de pesquisa
+  if(haConflito({recursoID,data,horaInicio,horaFim})){
+    mostrarToast('Indisponivel:já existe reserva ness intervalo.','err');
+    return;
+  }
+
   ultimoFiltroPesquisa = { recurso, data, hora };
   const quando = new Date(`${data}T${hora}`).toLocaleString('pt-BR');
   mostrarToast(`Disponível: ${recurso} em ${quando}.`);
@@ -263,6 +277,14 @@ formPesquisa?.addEventListener('submit', (e) => {
 
 // (c) SOLICITAR RESERVA
 // ALTERAÇÃO SPRINT 2: aplica RN simulada e registra no histórico
+
+//SPRINT 3 - GRAVA NO STORAGE + VALIDA CONFLITO
+
+
+
+
+
+
 formSolicitar?.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -285,6 +307,17 @@ formSolicitar?.addEventListener('submit', (e) => {
     return;
   }
 
+  //
+  const recursoID = Number(ultimoFiltroPesquisa);
+  const data = ultimoFiltroPesquisa.data;
+  const horaInicio = ultimoFiltroPesquisa.horaInicio;
+  const horaFim = adicionarumahora(horaInicio);
+  
+
+  if(haConflito({recursoID,data,horaInicio,horaFim})){
+    mostrarToast("Conflito: já existe reserva nesse intervalo para este recurso","err");
+    return;
+  }
   // RN4 (simulada): se login contém "prof", aprova automaticamente
   const status = usuarioAtual.professor ? 'aprovada' : 'pendente';
 
